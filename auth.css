@@ -1,0 +1,11 @@
+.container-sm .text-black-50 {
+	font-size: 13px;
+	margin-top: 1em;
+	text-align: left;
+}
+
+@media (min-width: 767.98px) {
+	.container-sm {
+		width: 540px !important;
+	}
+}
