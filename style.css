@@ -6,3 +6,15 @@ a {
 a:hover {
 	color: inherit;
 }
+
+@media (max-width: 767.98px) {
+	body {
+		font-size: 13px;
+	}
+	#exit-text {
+		display: none !important;
+	}
+	#exit-icon {
+		display: block !important;
+	}
+}
