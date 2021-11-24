@@ -7,6 +7,19 @@ a:hover {
 	color: inherit;
 }
 
+#exit {
+	display: none;
+}
+
+@media (max-width: 975px) {
+	#exit-icon {
+		display: none !important;
+	}
+	#exit {
+		display: block;
+	}
+}
+
 @media (max-width: 767.98px) {
 	body {
 		font-size: 13px;

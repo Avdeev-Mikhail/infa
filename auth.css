@@ -4,6 +4,14 @@
 	text-align: left;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
 @media (min-width: 767.98px) {
 	.container-sm {
 		width: 390px !important;

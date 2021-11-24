@@ -26,10 +26,10 @@
 	    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" href="#">Личный кабинет</a>
+	          <a class="nav-link" aria-current="page" href="office.html">Личный кабинет</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" href="reviews.html">Книга жалоб и предложений</a>
+	          <a class="nav-link active" href="#">Книга жалоб и предложений</a>
 	        </li>
 	        <li id='exit' class="nav-item">
 	          <a class="nav-link" href="auth.html">Выйти из аккаунта</a>
@@ -50,73 +50,25 @@
 		<a id='exit-icon' class='me-3' href="auth.html" style='display: none;'><img src="exit.svg" style='width: 2em;'></a>
 	</header> -->
 	<div id="body">
-		<main class='m-3' v-if="user=='admin'">
-			<header class='text-center'>
-				Вы авторизованы под учетной записью администратора системы ilevickij
-			</header>
+		<main class='m-3' v-if="user=='buyer'">
 			<div class="row">
 				<div class="col-sm">
-					<div class="fw-bold">Запросы на смену роли</div> 
-					<table class='table table-hover table-bordered'>
-						<tr>
-							<th>Пользователь</th>
-							<th>Текущая роль</th>
-						</tr>
-						<tr v-for='el in count'>
-							<td>Далеко-далеко за словесными</td>
-							<td>Далеко-далеко за словесными горами в стране.</td>
-						</tr>
-					</table>
+					<div class="fw-bold">Оставить отзыв</div>
+					<textarea type="text" class="form-control">{{ search }}</textarea>
 				</div>
 				<div class="col-sm">
-					<div class="fw-bold">Список администраторов системы</div> 
-					<table class='table table-hover table-bordered'>
-						<tr v-for='el in 11'>
-							<td>Далеко-далеко за словесными</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm">
-					<div class="fw-bold">Список продавцов</div>
-					<table class="table table-hover table-bordered">
-						<tr>
-							<th>Продавец</th>
-							<th>Магазин</th>
-						</tr>
-						<tr v-for="el in count">
-							<td>Далеко-далеко за словесными горами в стране.</td>
-							<td>Далеко-далеко за словесными горами в стране.</td>
+					<div class="fw-bold">Найти</div>
+					<input type="text" v-model='search' class="form-control">
+					<table class="table table-striped border rounded">
+						<tr v-for='el in filteredList.slice(0, 5)'>
+							<td>{{ el }}</td>
 						</tr>
 					</table>
 				</div>
 			</div>
 		</main>
 		<main class='m-3' v-if="user=='seller'">
-			<header class='text-center'>
-				Вы авторизованы под учетной записью продавца системы ilevickij
-				<div class="fw-bold">Левицкий Иван Александрович, г. Великий Новгород</div>
-			</header>
-			<div class="row">
-				<div class="col-sm">
-					<div class="fw-bold">Комментарии</div>
-					<table class="table table-hover table-bordered">
-						<tr>
-							<th>Пользователь</th>
-							<th>Комментарий</th>
-							<th>Оценка</th>
-							<th>Подтверждения / Опровержения</th>
-						</tr>
-						<tr v-for="el in 15">
-							<td>Далеко-далеко за словесными горами в стране.</td>
-							<td>Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты.</td>
-							<td>5</td>
-							<td>5/10</td>
-						</tr>
-					</table>
-				</div>
-			</div>
+			
 			
 		</main>
 	</div>
@@ -126,7 +78,16 @@ var app = new Vue({
 	el: "#body",
 	data: {
 		count: 10,
-		user: 'seller',
+		user: 'buyer',
+		search: '',
+		shops: ['У Глеба', 'Петрович', 'Озорник Глеб', 'Глебика тайны', 'Ярик крутой', 'Марк и Егорик', 'Вованчик']
+	},
+	computed: {
+		filteredList(){
+			return this.shops.filter(el => {
+				return el.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+			})
+		}
 	}
 });
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
