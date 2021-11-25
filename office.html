@@ -44,11 +44,6 @@
 
 	  </div>
 	</nav>
-	<!-- <header class='text-light bg-dark d-flex justify-content-between align-items-center w-100'>
-		<h1 class='ms-3'>Личный кабинет</h1>
-		<a id='exit-text' class='me-3' href="auth.html">Выйти из аккаунта</a>
-		<a id='exit-icon' class='me-3' href="auth.html" style='display: none;'><img src="exit.svg" style='width: 2em;'></a>
-	</header> -->
 	<div id="body">
 		<main class='m-3' v-if="user=='admin'">
 			<header class='text-center'>
@@ -62,17 +57,21 @@
 							<th>Пользователь</th>
 							<th>Текущая роль</th>
 						</tr>
-						<tr v-for='el in count'>
-							<td>Далеко-далеко за словесными</td>
-							<td>Далеко-далеко за словесными горами в стране.</td>
+						<tr data-bs-toggle="modal" data-bs-target="#exampleModalCenter" v-for='el in names'>
+						<template v-if="el.role == 'Продавец' || el.role == 'Покупатель'">
+							<td>{{ el.name }}</td>
+							<td>{{ el.role }}</td>
+						</template>
 						</tr>
 					</table>
 				</div>
 				<div class="col-sm">
 					<div class="fw-bold">Список администраторов системы</div> 
 					<table class='table table-hover table-bordered'>
-						<tr v-for='el in 11'>
-							<td>Далеко-далеко за словесными</td>
+						<tr v-for='el in names'>
+						<template v-if="el.role == 'Администратор'">
+							<td>{{ el.name }}</td>
+						</template>
 						</tr>
 					</table>
 				</div>
@@ -85,9 +84,11 @@
 							<th>Продавец</th>
 							<th>Магазин</th>
 						</tr>
-						<tr v-for="el in count">
-							<td>Далеко-далеко за словесными горами в стране.</td>
-							<td>Далеко-далеко за словесными горами в стране.</td>
+						<tr v-for="el in names">
+						<template v-if="el.role == 'Продавец'">
+							<td>{{ el.name }}</td>
+							<td>Магазин №1</td>
+						</template>
 						</tr>
 					</table>
 				</div>
@@ -120,18 +121,60 @@
 			
 		</main>
 	</div>
+
+
+	<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Подтверждение</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </button>
+      </div>
+      <div class="modal-body">
+        Подтвердите смену роли пользователя Левицкий Иван с Продавец на Покупатель.
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary">Подтверждаю</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 <script>
 var app = new Vue({
 	el: "#body",
 	data: {
 		count: 10,
-		user: 'seller',
+		user: 'admin',
+		names: [
+			{"name": 'Левицкий Иван Александр', "role": "Продавец"},
+			{"name": "Авдеев Михаил Андреевич", "role": "Покупатель"},
+			{"name": "Барышев Глеб Эдуардович", "role": "Дворник"},
+			{"name": "Нор Марк Эдуардович", "role": "Продавец"},
+			{"name": "Барышев Олег Эдуардович","role": "Продавец"},
+			{"name": "Можаев Александр Александрович", "role": "Покупатель"},
+			{"name": "Иванов Иван Иванович", "role": "Продавец"},
+			{"name": "Семенов Семен Семенович", "role": "Продавец"},
+			{"name": "Петров Петр Петрович", "role": "Покупатель"},
+			{"name": "Сергеев Сергей Сергеевич", "role": "Администратор"},
+			{"name": "Левицкий Левицк Левицкович", "role": "Администратор"},
+			{"name": "Барышев Барыш Барышевич", "role": "Администратор"},
+			{"name": "Нор Нор Норович", "role": "Администратор"},
+		],
+		shops: 'Магазин №',
 	}
 });
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
 })
 </script>
 </html>
