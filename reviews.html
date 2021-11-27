@@ -53,17 +53,34 @@
 		<main class='m-3' v-if="user=='buyer'">
 			<div class="row">
 				<div class="col-sm">
-					<div class="fw-bold">Оставить отзыв</div>
-					<textarea type="text" class="form-control">{{ search }}</textarea>
+					<div class="fw-bold">Оставить отзыв {{ total }}</div>
+					<textarea type="text" class="form-control">{{ search }}{{ currentPage }}</textarea>
 				</div>
 				<div class="col-sm">
 					<div class="fw-bold">Найти</div>
 					<input type="text" v-model='search' class="form-control">
 					<table class="table table-striped border rounded">
-						<tr v-for='el in filteredList.slice(0, 5)'>
+						<tr v-for='el in filteredList.slice(0, perPage)'>
 							<td>{{ el }}</td>
 						</tr>
 					</table>
+					<nav>
+					  <ul class="pagination">
+					    <li class="page-item" @click='pagePrev' v-bind:class='{ disabled: isPrev }'>
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <li class="page-item active" v-on:click='page1'><a class="page-link" href="#">1</a></li>
+					    <li class="page-item" v-on:click='page2'><a class="page-link" href="#">2</a></li>
+					    <li class="page-item" v-on:click='page3'><a class="page-link" href="#">3</a></li>
+					    <li class="page-item" @click="pageNext" v-bind:class='{ disabled: isNext }'>
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
 				</div>
 			</div>
 		</main>
@@ -80,14 +97,67 @@ var app = new Vue({
 		count: 10,
 		user: 'buyer',
 		search: '',
-		shops: ['У Глеба', 'Петрович', 'Озорник Глеб', 'Глебика тайны', 'Ярик крутой', 'Марк и Егорик', 'Вованчик']
+		shops: [],
+		shops2: ['У Глеба', 'Петрович', 'Озорник Глеб', 'Глебика тайны', 'Ярик крутой', 'Марк и Егорик', 'Вованчик', 'Михаил'],
+		currentPage: 1,
+		perPage: 3,
+		total: 8,
+		isNext: false,
+		isPrev: true,
+
+	},
+	beforeMount(){
+		this.shops = this.shops2.slice(0,3)
+	},
+	methods: {
+		pageNext(){
+			if (this.currentPage*this.perPage <= this.total) {
+				this.shops = this.shops2.slice(this.currentPage*this.perPage, this.currentPage*this.perPage+this.perPage);
+				this.currentPage++;
+				if (this.currentPage*this.perPage <= this.total) {
+					this.isNext = false;
+				} else {
+					this.isNext = true;
+				}
+			}
+			
+		},
+		pagePrev(){
+			if ((this.currentPage-1)*this.perPage >= 1) {
+				this.currentPage--;
+				this.shops = this.shops2.slice((this.currentPage-1)*this.perPage, this.currentPage*this.perPage+this.perPage);
+				if ((this.currentPage-1)*this.perPage <= 1) {
+					this.isPrev = true;
+				} else {
+					this.isPrev = false;
+				}
+				if (this.currentPage*this.perPage <= this.total) {
+					this.isNext = false;
+				} else {
+					this.isNext = true;
+				}
+			}
+		},
+		page1(){
+			this.currentPage = 1;
+			this.shops = this.shops2.slice((this.currentPage-1)*this.perPage, this.currentPage*this.perPage+this.perPage);
+		},
+		page2(){
+			this.currentPage = 2;
+			this.shops = this.shops2.slice((this.currentPage-1)*this.perPage, this.currentPage*this.perPage+this.perPage);
+		},
+		page3(){
+			this.currentPage = 3;
+			this.shops = this.shops2.slice((this.currentPage-1)*this.perPage, this.currentPage*this.perPage+this.perPage);
+		},
 	},
 	computed: {
 		filteredList(){
 			return this.shops.filter(el => {
 				return el.toLowerCase().indexOf(this.search.toLowerCase()) > -1
 			})
-		}
+		},
+
 	}
 });
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
