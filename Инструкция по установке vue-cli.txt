@@ -1,0 +1,9 @@
+1. Качаем nodejs с официального сайта nodejs.org
+2. В консоле npm install -g vue-cli
+3. Переходим в папку, в которой будет проект.
+4. vue init webpack <название папки>
+5. Переходим в созданную папку
+6. Следуем инструкциям npm, которые были написаны в конце выполнения 4ого пункта
+7. Если будет ошибка, то npm install webpack-dev-server -g
+
+npm install -g --save-dev webpack-cli
